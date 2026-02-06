@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdul Khalam Azad | Firmware Engineer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="calm-bg"></canvas>
+
+    <nav class="navbar">
+        <div class="brand-container">
+            <div class="brand-name">ABDUL KHALAM AZAD</div>
+            <div class="brand-role">FIRMWARE ENGINEER</div>
+        </div>
+        <div class="nav-links">
+            <a href="#about">Profile</a>
+            <a href="#expertise">Expertise</a>
+            <a href="#work">Work</a>
+            <a href="#contact" class="btn-nav">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+        <section id="about" class="hero-split">
+            <div class="hero-text">
+                <span class="eyebrow">Embedded Systems & IoT Specialist</span>
+                <h1>Engineering Intelligent<br>Machines</h1>
+                <p class="lead">
+                    I bridge the gap between hardware and software. Specializing in <strong>Autonomous Drones</strong>, <strong>Sensor Fusion (Kalman/EKF)</strong>, and <strong>Real-Time Control Systems</strong>.
+                </p>
+                <div class="hero-actions">
+                    <a href="#work" class="btn-primary">View Projects</a>
+                    <a href="https://www.linkedin.com/in/abdul-khalam-azad" target="_blank" class="btn-text">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image-container">
+                <div class="image-frame">
+                    <img src="assets/images/IMG_8558.jpeg" alt="Abdul Khalam Azad" class="profile-img">
+                    <div class="floating-badge top-right">
+                        <i class="fas fa-microchip"></i>
+                        <span>Firmware Logic</span>
+                    </div>
+                    <div class="floating-badge bottom-left">
+                        <i class="fas fa-satellite-dish"></i>
+                        <span>Signal Processing</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="solid-wrapper">
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <h3>1+ Years</h3>
+                    <p>R&D Experience</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Savtoa</h3>
+                    <p>Current Role</p>
+                </div>
+                <div class="stat-item">
+                    <h3>C / C++</h3>
+                    <p>Core Stack</p>
+                </div>
+            </div>
+
+            <section id="expertise" class="solid-section">
+                <div class="section-header">
+                    <h2>Technical Expertise</h2>
+                    <p class="section-subtitle">Deep dive into my engineering capabilities.</p>
+                </div>
+                <div class="cards-grid">
+                    <div class="clean-card">
+                        <div class="card-glow"></div>
+                        <div class="icon-box"><i class="fas fa-gamepad"></i></div>
+                        <h3>Control Algorithms</h3>
+                        [cite_start]<p>Designed PID-based active roll/pitch control systems for autonomous marine vehicles, ensuring stability in dynamic environments[cite: 13].</p>
+                    </div>
+                    <div class="clean-card">
+                        <div class="card-glow"></div>
+                        <div class="icon-box"><i class="fas fa-wave-square"></i></div>
+                        <h3>Sensor Fusion</h3>
+                        [cite_start]<p>Implemented Kalman and Extended Kalman Filters (EKF) to fuse multi-sensor data, significantly reducing noise and improving state estimation[cite: 7, 14].</p>
+                    </div>
+                    <div class="clean-card">
+                        <div class="card-glow"></div>
+                        <div class="icon-box"><i class="fas fa-network-wired"></i></div>
+                        <h3>Comms Protocols</h3>
+                        [cite_start]<p>Expertise in UART, I2C, SPI, and TCP/UDP for robust sensor interfacing and server-client communication hierarchies[cite: 16].</p>
+                    </div>
+                     <div class="clean-card">
+                        <div class="card-glow"></div>
+                        <div class="icon-box"><i class="fas fa-code-branch"></i></div>
+                        <h3>PCB & Hardware</h3>
+                        [cite_start]<p>Proficient in circuit design using Eagle/KiCAD and hands-on integration of STM32, ESP32, and Raspberry Pi modules[cite: 38].</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="work" class="solid-section">
+                <div class="section-header">
+                    <h2>Selected Works</h2>
+                    <p class="section-subtitle">Deployed solutions in Robotics and IoT.</p>
+                </div>
+                
+                <div class="project-list">
+                    <div class="project-row">
+                        <div class="project-info">
+                            <div class="project-meta">Autonomous Systems</div>
+                            <h3>Obstacle Avoidance Drone</h3>
+                            <p>Built a fully autonomous delivery drone prototype capable of carrying a 500g payload. [cite_start]Engineered the flight controller logic to detect and avoid obstacles in real-time during flight paths[cite: 32].</p>
+                            <ul class="tech-stack-inline">
+                                <li>Embedded C</li>
+                                <li>Flight Dynamics</li>
+                                <li>Sensor Integration</li>
+                            </ul>
+                        </div>
+                        <div class="project-visual p-1">
+                            <i class="fas fa-drone"></i>
+                        </div>
+                    </div>
+
+                    <div class="project-row reverse">
+                        <div class="project-info">
+                            <div class="project-meta">IoT & Mobile</div>
+                            <h3>Real-Time Water Monitor</h3>
+                            <p>Developed an end-to-end IoT solution using Kotlin (Jetpack Compose) for the frontend and MQTT (HiveMQ) for low-latency data transfer. [cite_start]Monitors tank levels and automates motor control[cite: 28, 29, 30].</p>
+                            <ul class="tech-stack-inline">
+                                <li>Kotlin</li>
+                                <li>MQTT</li>
+                                <li>Jetpack Compose</li>
+                            </ul>
+                        </div>
+                        <div class="project-visual p-2">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="project-row">
+                        <div class="project-info">
+                            <div class="project-meta">Computer Vision</div>
+                            <h3>Biometric Attendance</h3>
+                            <p>Created a classroom attendance system using Raspberry Pi. [cite_start]Utilized OpenCV for facial detection to log attendance automatically, eliminating manual entry[cite: 36].</p>
+                            <ul class="tech-stack-inline">
+                                <li>Raspberry Pi</li>
+                                <li>Python</li>
+                                <li>OpenCV</li>
+                            </ul>
+                        </div>
+                        <div class="project-visual p-3">
+                            <i class="fas fa-fingerprint"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <section id="contact" class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to Innovate?</h2>
+                <p>Currently available for Firmware & Embedded Engineering roles.</p>
+                <a href="mailto:abdulkhalamazad246@gmail.com" class="btn-primary large">Initiate Handshake</a>
+            </div>
+            <div class="footer-simple">
+                <p>Kollam, Kerala | +91 7994887229</p>
+                <p class="copyright">© 2026 Abdul Khalam Azad. All systems nominal.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,431 @@
+// --- MOBILE MENU TOGGLE ---
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', () => {
+        mobileMenuToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar')) {
+            mobileMenuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    });
+}
+
+// --- CALM 3D BACKGROUND (Three.js) ---
+const canvas = document.querySelector('#calm-bg');
+
+// Check if device can handle 3D background
+const isMobile = window.innerWidth < 768;
+const isLowPowerMode = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!isLowPowerMode) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas, 
+        alpha: true, 
+        antialias: !isMobile // Disable antialiasing on mobile for performance
+    });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
+
+    // Adjust geometry complexity based on device
+    const segments = isMobile ? 20 : 40;
+    const geometry = new THREE.PlaneGeometry(30, 20, segments, segments);
+    const material = new THREE.MeshBasicMaterial({
+        color: 0x0ea5e9,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.1
+    });
+
+    const plane = new THREE.Mesh(geometry, material);
+    scene.add(plane);
+
+    camera.position.z = 5;
+    plane.rotation.x = -Math.PI / 3;
+
+    // Animation Variables
+    let frame = 0;
+    const { array } = geometry.attributes.position;
+    const originalPositions = Array.from(array);
+
+    // Animation Loop with performance optimization
+    let lastTime = 0;
+    const fps = isMobile ? 30 : 60; // Lower FPS on mobile
+    const fpsInterval = 1000 / fps;
+
+    function animate(currentTime) {
+        requestAnimationFrame(animate);
+        
+        const deltaTime = currentTime - lastTime;
+        
+        if (deltaTime < fpsInterval) return;
+        
+        lastTime = currentTime - (deltaTime % fpsInterval);
+        
+        frame += 0.002;
+
+        const { array } = geometry.attributes.position;
+
+        for (let i = 0; i < array.length; i += 3) {
+            const x = originalPositions[i];
+            const y = originalPositions[i + 1];
+
+            const waveX = Math.sin(x / 4 + frame) * 0.5;
+            const waveY = Math.cos(y / 4 + frame) * 0.5;
+
+            array[i + 2] = waveX + waveY;
+        }
+
+        geometry.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+    }
+
+    animate(0);
+
+    // Handle Window Resize with debouncing
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }, 250);
+    });
+} else {
+    // Hide canvas if reduced motion is preferred
+    canvas.style.display = 'none';
+}
+
+// --- GSAP SCROLL ANIMATIONS ---
+gsap.registerPlugin(ScrollTrigger);
+
+// Only run animations if motion is not reduced
+if (!isLowPowerMode) {
+    // Hero Text Reveal with stagger
+    gsap.from(".hero-text > *", {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out"
+    });
+
+    // Image Reveal with rotation
+    gsap.from(".image-frame", {
+        x: isMobile ? 0 : 80,
+        y: isMobile ? 40 : 0,
+        opacity: 0,
+        rotation: isMobile ? 0 : 5,
+        duration: 1.2,
+        ease: "back.out(1.5)",
+        delay: 0.3
+    });
+
+    // Profile image zoom effect
+    gsap.fromTo(
+    ".profile-img",
+    {
+        opacity: 0,
+        scale: 0.8
+    },
+    {
+        opacity: 1,
+        scale: 1,
+        duration: 1.5,
+        ease: "elastic.out(1, 0.5)",
+        delay: 0.5,
+        clearProps: "opacity,transform"
+    }
+);
+
+
+    // Floating badges entrance
+    gsap.fromTo(
+    ".floating-badge",
+    { opacity: 0, scale: 0.8 },
+    {
+        opacity: 1,
+        scale: 1,
+        duration: 0.9,
+        ease: "back.out(1.6)",
+        delay: 0.8,
+        clearProps: "opacity,transform",
+        onComplete: () => {
+            document
+                .querySelectorAll('.floating-badge')
+                .forEach(badge => badge.style.animationPlayState = 'running');
+        }
+    }
+);
+
+
+
+    // Stats Bar Reveal with counter animation
+    gsap.from(".stat-item", {
+        scrollTrigger: {
+            trigger: ".stats-bar",
+            start: "top 85%"
+        },
+        scale: 0.5,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "back.out(1.7)"
+    });
+
+    // Animate stat numbers (counter effect)
+    const statItems = document.querySelectorAll('.stat-item h3');
+    statItems.forEach(stat => {
+        ScrollTrigger.create({
+            trigger: stat,
+            start: "top 85%",
+            onEnter: () => {
+                const text = stat.textContent;
+                const hasNumber = text.match(/\d+/);
+                if (hasNumber) {
+                    const number = parseInt(hasNumber[0]);
+                    const unit = text.replace(/\d+/, '');
+                    let current = 0;
+                    const increment = number / 30;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= number) {
+                            stat.textContent = number + unit;
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(current) + unit;
+                        }
+                    }, 50);
+                }
+            },
+            once: true
+        });
+    });
+
+    // Clean Cards Stagger with rotation
+    gsap.utils.toArray('.clean-card').forEach((card, i) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: "top 90%",
+            },
+            y: 60,
+            rotation: isMobile ? 0 : i % 2 === 0 ? -5 : 5,
+            opacity: 0,
+            duration: 1,
+            delay: i * 0.1,
+            ease: "back.out(1.5)"
+        });
+    });
+
+    // Project Rows with parallax effect
+    gsap.utils.toArray('.project-row').forEach((row, index) => {
+        const isReverse = row.classList.contains('reverse');
+        
+        gsap.from(row, {
+            scrollTrigger: {
+                trigger: row,
+                start: "top 80%",
+            },
+            x: isMobile ? 0 : (isReverse ? 100 : -100),
+            opacity: 0,
+            duration: 1.2,
+            ease: "power3.out"
+        });
+
+        // Animate project visual separately
+        const visual = row.querySelector('.project-visual');
+        gsap.from(visual, {
+            scrollTrigger: {
+                trigger: row,
+                start: "top 80%",
+            },
+            scale: 0.8,
+            rotation: isReverse ? -10 : 10,
+            opacity: 0,
+            duration: 1.2,
+            delay: 0.2,
+            ease: "back.out(1.5)"
+        });
+    });
+
+    // Section headers animation
+    gsap.utils.toArray('.section-header').forEach(header => {
+        gsap.from(header, {
+            scrollTrigger: {
+                trigger: header,
+                start: "top 85%",
+            },
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+    });
+
+    // CTA section animation
+    gsap.from('.cta-content', {
+        scrollTrigger: {
+            trigger: '.cta-section',
+            start: "top 80%",
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out"
+    });
+}
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const navbar = document.querySelector('.navbar');
+            const navbarHeight = navbar.offsetHeight;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+            
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// Add active state to navbar on scroll with smooth transition
+let lastScroll = 0;
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    
+    lastScroll = currentScroll;
+});
+
+// Magnetic button effect (only on desktop)
+if (!isMobile) {
+    document.querySelectorAll('.btn-primary, .btn-nav').forEach(button => {
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            button.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.05)`;
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+        });
+    });
+}
+
+// Parallax effect for floating badges
+if (!isMobile && !isLowPowerMode) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const badges = document.querySelectorAll('.floating-badge');
+        
+        badges.forEach((badge, index) => {
+            const speed = index % 2 === 0 ? 0.5 : 0.3;
+            const currentTransform = badge.style.transform || '';
+            if (!currentTransform.includes('translate(')) {
+                badge.style.transform += ` translateY(${scrolled * speed}px)`;
+            }
+        });
+    });
+}
+
+// Add ripple effect styles
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+    
+    .cursor-trail {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: var(--accent-color);
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.6;
+        z-index: 9999;
+        transition: scale 0.2s ease;
+    }
+`;
+document.head.appendChild(style);
+
+// Add ripple effect to buttons
+document.querySelectorAll('.btn-primary, .btn-nav').forEach(element => {
+    element.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// Intersection Observer for smooth reveal animations
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+});
+
+document.querySelectorAll('.project-row, .clean-card, .stat-item').forEach(element => {
+    revealObserver.observe(element);
+});
