@@ -35,9 +35,9 @@ const isLowPowerMode = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 if (!isLowPowerMode) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ 
-        canvas: canvas, 
-        alpha: true, 
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
         antialias: !isMobile // Disable antialiasing on mobile for performance
     });
 
@@ -72,13 +72,13 @@ if (!isLowPowerMode) {
 
     function animate(currentTime) {
         requestAnimationFrame(animate);
-        
+
         const deltaTime = currentTime - lastTime;
-        
+
         if (deltaTime < fpsInterval) return;
-        
+
         lastTime = currentTime - (deltaTime % fpsInterval);
-        
+
         frame += 0.002;
 
         const { array } = geometry.attributes.position;
@@ -141,84 +141,110 @@ if (!isLowPowerMode) {
 
     // Profile image zoom effect
     gsap.fromTo(
-    ".profile-img",
-    {
-        opacity: 0,
-        scale: 0.8
-    },
-    {
-        opacity: 1,
-        scale: 1,
-        duration: 1.5,
-        ease: "elastic.out(1, 0.5)",
-        delay: 0.5,
-        clearProps: "opacity,transform"
-    }
-);
+        ".profile-img",
+        {
+            opacity: 0,
+            scale: 0.8
+        },
+        {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "elastic.out(1, 0.5)",
+            delay: 0.5,
+            clearProps: "opacity,transform"
+        }
+    );
 
 
     // Floating badges entrance
     gsap.fromTo(
-    ".floating-badge",
-    { opacity: 0, scale: 0.8 },
-    {
-        opacity: 1,
-        scale: 1,
-        duration: 0.9,
-        ease: "back.out(1.6)",
-        delay: 0.8,
-        clearProps: "opacity,transform",
-        onComplete: () => {
-            document
-                .querySelectorAll('.floating-badge')
-                .forEach(badge => badge.style.animationPlayState = 'running');
+        ".floating-badge",
+        { opacity: 0, scale: 0.8 },
+        {
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: "back.out(1.6)",
+            delay: 0.8,
+            clearProps: "opacity,transform",
+            onComplete: () => {
+                document
+                    .querySelectorAll('.floating-badge')
+                    .forEach(badge => badge.style.animationPlayState = 'running');
+            }
         }
-    }
-);
+    );
 
 
 
-    // Stats Bar Reveal with counter animation
-    gsap.from(".stat-item", {
+    // Premium Stats Reveal - ALL CARDS LOAD TOGETHER
+    gsap.from(".stat-card", {
         scrollTrigger: {
-            trigger: ".stats-bar",
-            start: "top 85%"
+            trigger: ".premium-stats-container",
+            start: "top 85%",
+            toggleActions: "play none none none"
         },
-        scale: 0.5,
+        y: 30,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "back.out(1.7)"
+        duration: 0.7,
+        stagger: 0, // No stagger - all load simultaneously
+        ease: "power3.out",
+        clearProps: "opacity,transform"
     });
 
-    // Animate stat numbers (counter effect)
-    const statItems = document.querySelectorAll('.stat-item h3');
-    statItems.forEach(stat => {
-        ScrollTrigger.create({
-            trigger: stat,
-            start: "top 85%",
-            onEnter: () => {
-                const text = stat.textContent;
-                const hasNumber = text.match(/\d+/);
-                if (hasNumber) {
-                    const number = parseInt(hasNumber[0]);
-                    const unit = text.replace(/\d+/, '');
-                    let current = 0;
-                    const increment = number / 30;
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= number) {
-                            stat.textContent = number + unit;
-                            clearInterval(timer);
-                        } else {
-                            stat.textContent = Math.floor(current) + unit;
-                        }
-                    }, 50);
-                }
-            },
-            once: true
-        });
+    // Animate stat numbers (counter effect) - Trigger ALL together
+    ScrollTrigger.create({
+        trigger: ".premium-stats-container",
+        start: "top 85%",
+        onEnter: () => {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                gsap.to(counter, {
+                    innerHTML: target,
+                    duration: 1.5,
+                    snap: { innerHTML: 1 },
+                    ease: "power2.out",
+                    onUpdate: function () {
+                        this.targets()[0].innerHTML = Math.ceil(this.targets()[0].innerHTML);
+                    }
+                });
+            });
+        },
+        once: true
     });
+
+    // 3D Tilt Effect for Glass Cards
+    if (!isMobile) {
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                gsap.to(card, {
+                    transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    transform: "perspective(1000px) rotateX(0) rotateY(0) scale(1)",
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.5)"
+                });
+            });
+        });
+    }
 
     // Clean Cards Stagger with rotation
     gsap.utils.toArray('.clean-card').forEach((card, i) => {
@@ -239,7 +265,7 @@ if (!isLowPowerMode) {
     // Project Rows with parallax effect
     gsap.utils.toArray('.project-row').forEach((row, index) => {
         const isReverse = row.classList.contains('reverse');
-        
+
         gsap.from(row, {
             scrollTrigger: {
                 trigger: row,
@@ -303,7 +329,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const navbar = document.querySelector('.navbar');
             const navbarHeight = navbar.offsetHeight;
             const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-            
+
             window.scrollTo({
                 top: targetPosition,
                 behavior: 'smooth'
@@ -318,13 +344,13 @@ const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
-    
+
     if (currentScroll > 50) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
-    
+
     lastScroll = currentScroll;
 });
 
@@ -335,10 +361,10 @@ if (!isMobile) {
             const rect = button.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
+
             button.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.05)`;
         });
-        
+
         button.addEventListener('mouseleave', () => {
             button.style.transform = '';
         });
@@ -350,7 +376,7 @@ if (!isMobile && !isLowPowerMode) {
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
         const badges = document.querySelectorAll('.floating-badge');
-        
+
         badges.forEach((badge, index) => {
             const speed = index % 2 === 0 ? 0.5 : 0.3;
             const currentTransform = badge.style.transform || '';
@@ -396,20 +422,20 @@ document.head.appendChild(style);
 
 // Add ripple effect to buttons
 document.querySelectorAll('.btn-primary, .btn-nav').forEach(element => {
-    element.addEventListener('click', function(e) {
+    element.addEventListener('click', function (e) {
         const ripple = document.createElement('span');
         const rect = this.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         const x = e.clientX - rect.left - size / 2;
         const y = e.clientY - rect.top - size / 2;
-        
+
         ripple.style.width = ripple.style.height = size + 'px';
         ripple.style.left = x + 'px';
         ripple.style.top = y + 'px';
         ripple.classList.add('ripple');
-        
+
         this.appendChild(ripple);
-        
+
         setTimeout(() => ripple.remove(), 600);
     });
 });
@@ -428,4 +454,16 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.project-row, .clean-card, .stat-item').forEach(element => {
     revealObserver.observe(element);
+});
+
+// Force ScrollTrigger refresh on window load to ensure accurate start positions
+window.addEventListener('load', () => {
+    // Ensure stats cards are properly initialized
+    const statCards = document.querySelectorAll('.stat-card');
+    statCards.forEach(card => {
+        card.style.opacity = '1';
+        card.style.transform = 'none';
+    });
+
+    ScrollTrigger.refresh();
 });
