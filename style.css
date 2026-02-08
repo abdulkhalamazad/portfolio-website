@@ -55,6 +55,10 @@ body {
     font-family: var(--font-main);
     line-height: 1.6;
     overflow-x: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    caret-color: transparent;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* --- 3D Background --- */
@@ -1569,7 +1573,7 @@ h1 {
         justify-content: flex-start;
         padding-top: 90px;
         /* Increased space for navbar */
-        overflow-y: auto;
+        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
     }
 
