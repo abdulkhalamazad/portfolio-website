@@ -8,17 +8,55 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=0.1">
 </head>
 
 <body>
+
+    <!-- SKELETON LOADER -->
+    <div id="skeleton-loader">
+        <div class="skeleton-nav">
+            <div class="skeleton-brand">
+                <div class="skeleton-text-group">
+                    <div class="skeleton-line lg skeleton-shimmer"></div>
+                    <div class="skeleton-line sm skeleton-shimmer"></div>
+                </div>
+            </div>
+            <div class="skeleton-links">
+                <div class="skeleton-link skeleton-shimmer"></div>
+                <div class="skeleton-link skeleton-shimmer"></div>
+                <div class="skeleton-link skeleton-shimmer"></div>
+                <div class="skeleton-link btn skeleton-shimmer"></div>
+            </div>
+            <div class="skeleton-hamburger skeleton-shimmer"></div>
+        </div>
+
+        <div class="skeleton-hero">
+            <div class="skeleton-hero-text">
+                <div class="skeleton-line sm skeleton-shimmer mb-4"></div>
+                <div class="skeleton-heading skeleton-shimmer mb-4"></div>
+                <div class="skeleton-heading w-75 skeleton-shimmer mb-6"></div>
+                <div class="skeleton-line skeleton-shimmer mb-2"></div>
+                <div class="skeleton-line skeleton-shimmer mb-2"></div>
+                <div class="skeleton-line w-50 skeleton-shimmer mb-8"></div>
+                <div class="skeleton-btn-group">
+                    <div class="skeleton-btn skeleton-shimmer"></div>
+                    <div class="skeleton-btn text skeleton-shimmer"></div>
+                </div>
+            </div>
+            <div class="skeleton-hero-image skeleton-shimmer"></div>
+        </div>
+    </div>
 
     <canvas id="calm-bg"></canvas>
 
     <nav class="navbar">
         <div class="brand-container">
-            <div class="brand-name">ABDUL KHALAM AZAD</div>
-            <div class="brand-role">FIRMWARE ENGINEER</div>
+            <img src="assets/images/IMG_8558.jpeg" alt="Profile" class="nav-profile-img">
+            <div class="brand-info">
+                <div class="brand-name">ABDUL KHALAM AZAD</div>
+                <div class="brand-role">FIRMWARE ENGINEER</div>
+            </div>
         </div>
 
         <button class="mobile-menu-toggle" aria-label="Toggle navigation">
@@ -55,13 +93,17 @@
             <div class="hero-image-container">
                 <div class="image-frame">
                     <img src="assets/images/IMG_8558.jpeg" alt="Abdul Khalam Azad" class="profile-img">
-                    <div class="floating-badge top-right">
-                        <i class="fas fa-microchip"></i>
-                        <span>Firmware Logic</span>
+                    <div class="badge-wrapper top-right">
+                        <div class="floating-badge delay-0">
+                            <i class="fas fa-microchip"></i>
+                            <span>Firmware Logic</span>
+                        </div>
                     </div>
-                    <div class="floating-badge bottom-left">
-                        <i class="fas fa-satellite-dish"></i>
-                        <span>Signal Processing</span>
+                    <div class="badge-wrapper bottom-left">
+                        <div class="floating-badge delay-2">
+                            <i class="fas fa-satellite-dish"></i>
+                            <span>Signal Processing</span>
+                        </div>
                     </div>
                 </div>
             </div>

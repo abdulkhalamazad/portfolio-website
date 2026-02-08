@@ -110,9 +110,38 @@ body {
 
 .brand-container {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    z-index: 1001;
+}
+
+.brand-info {
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 1001;
+}
+
+.nav-profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: scale(0.5) translateX(-20px);
+    transition: all 0.5s var(--ease-spring);
+    /* Hidden by default, shown via JS */
+    width: 0;
+    margin: 0;
+    /* We animate width/margin to slide it in without taking space initially */
+}
+
+.nav-profile-img.visible {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    width: 45px;
+    margin-right: 5px;
 }
 
 .brand-name {
@@ -470,8 +499,14 @@ h1 {
     filter: grayscale(0%);
 }
 
-.floating-badge {
+.badge-wrapper {
     position: absolute;
+    z-index: 10;
+}
+
+.floating-badge {
+    position: relative;
+    /* Changed from absolute */
     background: white;
     padding: 10px 18px;
     border-radius: 50px;
@@ -532,16 +567,23 @@ h1 {
     }
 }
 
+/* Delay classes for float animation */
+.delay-0 {
+    animation-delay: 0s;
+}
+
+.delay-2 {
+    animation-delay: 2s;
+}
+
 .top-right {
     top: 20px;
     right: -20px;
-    animation-delay: 0s;
 }
 
 .bottom-left {
     bottom: 30px;
     left: -20px;
-    animation-delay: 2s;
 }
 
 /* ========================================
@@ -1323,5 +1365,319 @@ h1 {
 
     .cards-grid {
         grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ========================================
+   SKELETON LOADER
+   ======================================== */
+#skeleton-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f8fafc;
+    z-index: 9999;
+    padding: 0 var(--container-padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+#skeleton-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.skeleton-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px var(--container-padding);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.skeleton-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.skeleton-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #e2e8f0;
+}
+
+.skeleton-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.skeleton-links {
+    display: flex;
+    gap: 30px;
+}
+
+.skeleton-hamburger {
+    display: none;
+    width: 30px;
+    height: 24px;
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.skeleton-link {
+    width: 60px;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.skeleton-link.btn {
+    width: 100px;
+    height: 35px;
+    border-radius: 6px;
+}
+
+.skeleton-hero {
+    display: flex;
+    gap: clamp(30px, 5vw, 60px);
+    /* Match real gap */
+    align-items: center;
+    max-width: 1600px;
+    margin: 80px auto 0;
+    width: 100%;
+    justify-content: space-between;
+    /* Improve spacing */
+    padding: 0 5%;
+    /* match container padding roughly */
+}
+
+.skeleton-hero-text {
+    flex: 1;
+}
+
+.skeleton-line {
+    height: 15px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    width: 90%;
+    /* Reduced for desktop */
+}
+
+.skeleton-line:last-child {
+    width: 70%;
+    /* Make last line shorter */
+}
+
+.skeleton-line.sm {
+    width: 150px;
+}
+
+.skeleton-line.lg {
+    width: 200px;
+}
+
+.skeleton-line.w-50 {
+    width: 50%;
+}
+
+.skeleton-heading {
+    height: 50px;
+    background: #e2e8f0;
+    border-radius: 8px;
+    width: 80%;
+}
+
+.skeleton-heading.w-75 {
+    width: 65%;
+}
+
+.skeleton-btn-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.skeleton-btn {
+    width: 150px;
+    height: 50px;
+    border-radius: 6px;
+    background: #e2e8f0;
+}
+
+.skeleton-hero-image {
+    width: 400px;
+    /* Match max width of real image */
+    height: 500px;
+    /* Match max height of real image */
+    background: #e2e8f0;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-left: auto;
+    /* Push to the right/center of its area */
+    margin-right: auto;
+}
+
+/* Utilities for skeleton margins */
+.mb-2 {
+    margin-bottom: 10px;
+}
+
+.mb-4 {
+    margin-bottom: 20px;
+}
+
+.mb-6 {
+    margin-bottom: 30px;
+}
+
+.mb-8 {
+    margin-bottom: 40px;
+}
+
+/* Shimmer Animation */
+.skeleton-shimmer {
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite ease-in-out;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Responsive Skeleton */
+/* Responsive Skeleton */
+@media (max-width: 768px) {
+    #skeleton-loader {
+        justify-content: flex-start;
+        padding-top: 90px;
+        /* Increased space for navbar */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .skeleton-nav {
+        background: #f8fafc;
+        z-index: 9999;
+        /* Ensure it stays on top */
+        position: fixed;
+        /* Fixed to viewport top */
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        /* Optional shadow for separation */
+    }
+
+    .skeleton-brand {
+        display: flex !important;
+        /* Force flex display */
+        gap: 10px;
+        align-items: center;
+    }
+
+    .skeleton-text-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* Resize brand text lines for mobile */
+    .skeleton-text-group .skeleton-line.lg {
+        width: 120px !important;
+        height: 12px;
+    }
+
+    .skeleton-text-group .skeleton-line.sm {
+        width: 80px !important;
+        height: 10px;
+    }
+
+    .skeleton-links {
+        display: none;
+    }
+
+    .skeleton-hamburger {
+        display: block;
+        width: 30px;
+        height: 24px;
+        border-radius: 4px;
+        /* Background handled by .skeleton-shimmer */
+    }
+
+    .skeleton-hero {
+        flex-direction: column-reverse;
+        margin-top: 20px;
+        text-align: center;
+        gap: 30px;
+        padding-bottom: 60px;
+        /* Extra padding at bottom for scroll */
+        width: 100%;
+    }
+
+    .skeleton-hero-image {
+        display: block !important;
+        width: 300px;
+        /* Reduced width as requested */
+        height: 400px;
+        /* Increased height as requested */
+        min-height: 400px;
+        max-width: 90%;
+        margin: 0 auto 30px auto;
+        flex-shrink: 0;
+        border-radius: 16px;
+        /* create background via shimmer class, do not override here */
+    }
+
+    .skeleton-hero-text {
+        width: 100%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .skeleton-heading {
+        width: 85%;
+        margin-bottom: 20px;
+        height: 40px;
+    }
+
+    .skeleton-line {
+        width: 90% !important;
+    }
+
+    .skeleton-btn-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .skeleton-btn {
+        width: 100%;
+        height: 55px;
+        /* Taller touch targets */
     }
 }

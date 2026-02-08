@@ -371,19 +371,30 @@ if (!isMobile) {
     });
 }
 
-// Parallax effect for floating badges
+// Parallax effect for floating badges (Using GSAP for smoothness)
 if (!isMobile && !isLowPowerMode) {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const badges = document.querySelectorAll('.floating-badge');
+    // Parallax for Top Right Badge
+    gsap.to(".badge-wrapper.top-right", {
+        y: 100, // Move down as we scroll
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".hero-split",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
+    });
 
-        badges.forEach((badge, index) => {
-            const speed = index % 2 === 0 ? 0.5 : 0.3;
-            const currentTransform = badge.style.transform || '';
-            if (!currentTransform.includes('translate(')) {
-                badge.style.transform += ` translateY(${scrolled * speed}px)`;
-            }
-        });
+    // Parallax for Bottom Left Badge
+    gsap.to(".badge-wrapper.bottom-left", {
+        y: 50, // Move down slower
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".hero-split",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
     });
 }
 
@@ -466,4 +477,52 @@ window.addEventListener('load', () => {
     });
 
     ScrollTrigger.refresh();
+});
+
+// --- NAVBAR PROFILE IMAGE REVEAL ---
+const heroSection = document.querySelector('.hero-split');
+const navProfileImg = document.querySelector('.nav-profile-img');
+
+if (heroSection && navProfileImg) {
+    const profileObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // If hero section is NOT intersecting (scrolled past), show the image
+            if (!entry.isIntersecting) {
+                navProfileImg.classList.add('visible');
+            } else {
+                navProfileImg.classList.remove('visible');
+            }
+        });
+    }, {
+        rootMargin: '-100px 0px 0px 0px', // Trigger slightly after top
+        threshold: 0
+    });
+
+    profileObserver.observe(heroSection);
+    profileObserver.observe(heroSection);
+}
+
+// --- SKELETON LOADER REMOVAL ---
+window.addEventListener('load', () => {
+    // Force scroll to top so skeleton matches content
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    const skeleton = document.getElementById('skeleton-loader');
+    if (skeleton) {
+        // Minimum display time to prevent flickering on fast connections
+        setTimeout(() => {
+            skeleton.classList.add('hidden');
+
+            // Remove from DOM after transition
+            setTimeout(() => {
+                skeleton.style.display = 'none';
+
+                // Trigger validations or specific animations after load if needed
+                ScrollTrigger.refresh();
+            }, 500);
+        }, 500); // optional delay
+    }
 });
