@@ -503,26 +503,28 @@ if (heroSection && navProfileImg) {
 }
 
 // --- SKELETON LOADER REMOVAL ---
-window.addEventListener('load', () => {
-    // Force scroll to top so skeleton matches content
+document.addEventListener('DOMContentLoaded', () => {
+    // Keep scroll reset (this part is fine)
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
     }
     window.scrollTo(0, 0);
 
     const skeleton = document.getElementById('skeleton-loader');
-    if (skeleton) {
-        // Minimum display time to prevent flickering on fast connections
+    if (!skeleton) return;
+
+    // Never block UI waiting for assets
+    setTimeout(() => {
+        skeleton.classList.add('hidden');
+
+        // Remove after transition
         setTimeout(() => {
-            skeleton.classList.add('hidden');
+            skeleton.style.display = 'none';
 
-            // Remove from DOM after transition
-            setTimeout(() => {
-                skeleton.style.display = 'none';
-
-                // Trigger validations or specific animations after load if needed
+            // Safari-safe: only call if GSAP is alive
+            if (window.ScrollTrigger) {
                 ScrollTrigger.refresh();
-            }, 500);
-        }, 500); // optional delay
-    }
+            }
+        }, 500);
+    }, 800);
 });
