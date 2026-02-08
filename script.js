@@ -549,3 +549,101 @@ window.addEventListener('load', () => {
         try { ScrollTrigger.refresh(); } catch (e) { }
     }
 });
+
+// --- ENHANCED EDUCATION SECTION ANIMATIONS ---
+try {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !isLowPowerMode) {
+
+        const educationCards = document.querySelectorAll('.education-card');
+
+        // Entrance Animation with stagger
+        gsap.from('.education-card', {
+            scrollTrigger: {
+                trigger: '.education-timeline',
+                start: 'top 80%',
+                toggleActions: 'play none none none'
+            },
+            y: 80,
+            opacity: 0,
+            scale: 0.9,
+            duration: 1,
+            stagger: 0.2,
+            ease: 'back.out(1.4)',
+            clearProps: 'all',
+            onComplete: () => {
+                // Mark cards as visible for grade bar animation
+                educationCards.forEach(card => card.classList.add('visible'));
+            }
+        });
+
+        // 3D Tilt Effect on Mouse Move (Desktop only)
+        if (!isMobile) {
+            educationCards.forEach(card => {
+                const inner = card.querySelector('.education-card-inner');
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
+
+                    gsap.to(inner, {
+                        rotateX: rotateX,
+                        rotateY: rotateY,
+                        duration: 0.3,
+                        ease: 'power2.out',
+                        transformPerspective: 1500
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(inner, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        duration: 0.5,
+                        ease: 'elastic.out(1, 0.5)'
+                    });
+                });
+            });
+        }
+
+        // Parallax effect for education cards on scroll
+        if (!isMobile) {
+            educationCards.forEach((card, index) => {
+                const direction = index % 2 === 0 ? 1 : -1;
+                gsap.to(card, {
+                    y: 30 * direction,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1
+                    }
+                });
+            });
+        }
+
+        // Intersection Observer for visibility-based animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        educationCards.forEach(card => cardObserver.observe(card));
+    }
+} catch (e) {
+    console.warn("Education Animation Error:", e);
+}

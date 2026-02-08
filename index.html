@@ -8,7 +8,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1.2">
+    <link rel="stylesheet" href="style.css?v=1.3">
 </head>
 
 <body>
@@ -68,6 +68,7 @@
         <div class="nav-links">
             <a href="#about">Profile</a>
             <a href="#expertise">Expertise</a>
+            <a href="#education">Education</a>
             <a href="#work">Work</a>
             <a href="#contact" class="btn-nav">Contact</a>
         </div>
@@ -189,6 +190,97 @@
                 </div>
             </section>
 
+            <section id="education" class="solid-section">
+                <div class="section-header">
+                    <h2>Education History</h2>
+                    <p class="section-subtitle">Academic milestones and qualifications.</p>
+                </div>
+
+                <div class="education-timeline">
+                    <!-- Card 1: Diploma -->
+                    <div class="education-card" data-year="2018-2021">
+                        <div class="education-card-inner">
+                            <div class="card-glow-effect"></div>
+                            <div class="card-shine"></div>
+
+                            <div class="year-badge">
+                                <span class="year-text">2018 - 2021</span>
+                                <div class="year-badge-glow"></div>
+                            </div>
+
+                            <div class="card-icon-container">
+                                <div class="icon-orbit">
+                                    <div class="orbit-ring"></div>
+                                    <div class="orbit-ring delay-1"></div>
+                                    <div class="orbit-ring delay-2"></div>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fas fa-microchip"></i>
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h3 class="degree-title">Diploma in Electronics Engineering</h3>
+                                <p class="institution">
+                                    <i class="fas fa-university"></i>
+                                    Govt. Polytechnic College, Punalur
+                                </p>
+
+                                <div class="grade-container">
+                                    <div class="grade-label">CGPA</div>
+                                    <div class="grade-value">9.21</div>
+                                    <div class="grade-bar">
+                                        <div class="grade-fill" style="--grade-percent: 92.1%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Card 2: B.Tech -->
+                    <div class="education-card" data-year="2021-2024">
+                        <div class="education-card-inner">
+                            <div class="card-glow-effect"></div>
+                            <div class="card-shine"></div>
+
+                            <div class="year-badge">
+                                <span class="year-text">2021 - 2024</span>
+                                <div class="year-badge-glow"></div>
+                            </div>
+
+                            <div class="card-icon-container">
+                                <div class="icon-orbit">
+                                    <div class="orbit-ring"></div>
+                                    <div class="orbit-ring delay-1"></div>
+                                    <div class="orbit-ring delay-2"></div>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                            </div>
+
+                            <div class="card-content">
+                                <h3 class="degree-title">B.Tech in Electronics & Communication</h3>
+                                <p class="institution">
+                                    <i class="fas fa-university"></i>
+                                    TKM College of Engineering (TKMCE)
+                                </p>
+
+                                <div class="grade-container">
+                                    <div class="grade-label">CGPA</div>
+                                    <div class="grade-value">7.72</div>
+                                    <div class="grade-bar">
+                                        <div class="grade-fill" style="--grade-percent: 77.2%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="work" class="solid-section">
                 <div class="section-header">
                     <h2>Selected Works</h2>
@@ -256,7 +348,8 @@
             <div class="cta-content">
                 <h2>Ready to Innovate?</h2>
                 <p>Currently available for Firmware & Embedded Engineering roles.</p>
-                <a href="mailto:abdulkhalamazad246@gmail.com" class="btn-primary large">Initiate Handshake</a>
+                <a href="/cdn-cgi/l/email-protection#c9a8abadbca5a2a1a8a5a8a4a8b3a8adfbfdff89aea4a8a0a5e7aaa6a4"
+                    class="btn-primary large">Initiate Handshake</a>
             </div>
             <div class="footer-simple">
                 <p>Kollam, Kerala | +91 7994887229</p>
@@ -266,10 +359,11 @@
 
     </main>
 
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-    <script src="script.js?v=1.2" defer></script>
+    <script src="script.js?v=1.3" defer></script>
 
     <script>
         // Inline Critical Skeleton Removal Logic
@@ -296,7 +390,7 @@
             setTimeout(removeSkeleton, 3000); // 3s backup
             setTimeout(removeSkeleton, 5000); // 5s absolute max
 
-            // If the document is already complete (rare but possible with cache)
+            // If the document is already complete (rare but possible with cached pages)
             if (document.readyState === 'complete') {
                 removeSkeleton();
             }
