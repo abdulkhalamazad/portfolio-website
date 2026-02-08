@@ -8,7 +8,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=0.2">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
 
 <body>
@@ -266,10 +266,42 @@
 
     </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <script src="script.js?v=1.1" defer></script>
+
+    <script>
+        // Inline Critical Skeleton Removal Logic
+        // This ensures removal even if external scripts fail or hang
+        (function () {
+            function removeSkeleton() {
+                var skeleton = document.getElementById('skeleton-loader');
+                if (skeleton && !skeleton.classList.contains('hidden')) {
+                    skeleton.classList.add('hidden');
+                    setTimeout(function () {
+                        skeleton.style.display = 'none';
+                        if (typeof ScrollTrigger !== 'undefined') {
+                            try { ScrollTrigger.refresh(); } catch (e) { }
+                        }
+                    }, 500);
+                }
+            }
+
+            // Multiple triggers for redundancy
+            window.addEventListener('load', removeSkeleton);
+
+            // Failsafe timeouts
+            setTimeout(removeSkeleton, 1500); // 1.5s is usually plenty for critical rendering
+            setTimeout(removeSkeleton, 3000); // 3s backup
+            setTimeout(removeSkeleton, 5000); // 5s absolute max
+
+            // If the document is already complete (rare but possible with cache)
+            if (document.readyState === 'complete') {
+                removeSkeleton();
+            }
+        })();
+    </script>
 </body>
 
 </html>
