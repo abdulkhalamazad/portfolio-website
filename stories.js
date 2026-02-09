@@ -284,9 +284,6 @@
             return;
         }
 
-        // Render Skeleton Loader
-        renderArchiveSkeleton();
-
         try {
             // Fetch index
             const indexResponse = await fetch(`${STORIES_BASE_URL}index.json?t=${Date.now()}`);
@@ -372,22 +369,7 @@
         }, 300);
     }
 
-    function renderArchiveSkeleton() {
-        let skeletonHtml = `<div class="story-archive-list"><div class="archive-grid">`;
-        // Create 5 skeleton items
-        for (let i = 0; i < 5; i++) {
-            skeletonHtml += `
-                <div class="archive-skeleton-item">
-                    <div class="skeleton-date skeleton-shimmer"></div>
-                    <div class="skeleton-title skeleton-shimmer"></div>
-                    <div class="skeleton-desc skeleton-shimmer"></div>
-                    <div class="skeleton-desc short skeleton-shimmer"></div>
-                </div>
-            `;
-        }
-        skeletonHtml += `</div></div>`;
-        storyContentContainer.innerHTML = skeletonHtml;
-    }
+
 
     function formatDate(dateString) {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
