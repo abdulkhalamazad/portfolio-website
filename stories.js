@@ -261,6 +261,9 @@
         }
     }
 
+    // Cache state
+    let archiveCache = null;
+
     async function loadArchive() {
         // Hide fixed back button in archive view
         const fixedBackBtn = document.getElementById('story-back-btn');
@@ -268,12 +271,21 @@
             fixedBackBtn.classList.add('hidden');
         }
 
-        // Clear sticky date for archive list
         // Set sticky header title for archive
         const stickyDateEl = document.querySelector('.sticky-date');
         if (stickyDateEl) {
             stickyDateEl.textContent = 'Recent Stories';
         }
+
+        // Use cache if available
+        if (archiveCache) {
+            storyContentContainer.innerHTML = archiveCache;
+            attachArchiveListeners(); // Re-attach listeners after innerHTML replacement
+            return;
+        }
+
+        // Render Skeleton Loader
+        renderArchiveSkeleton();
 
         try {
             // Fetch index
@@ -286,6 +298,8 @@
 
             let listHtml = `<div class="story-archive-list"><div class="archive-grid">`;
 
+            // We need to fetch each story to get the title/desc
+            // In a real app, this data should be in index.json to avoid N+1 requests
             for (const date of sortedDates) {
                 try {
                     const sRes = await fetch(`${STORIES_BASE_URL}${date}.json`);
@@ -306,22 +320,33 @@
             }
             listHtml += `</div></div>`;
 
+            // Save to cache
+            archiveCache = listHtml;
             storyContentContainer.innerHTML = listHtml;
-
-            // Add click handlers to archive items
-            document.querySelectorAll('.archive-item').forEach(item => {
-                item.addEventListener('click', async () => {
-                    const date = item.dataset.date;
-                    const sRes = await fetch(`${STORIES_BASE_URL}${date}.json`);
-                    const story = await sRes.json();
-                    renderStory(story, true);
-                });
-            });
+            attachArchiveListeners();
 
         } catch (e) {
             console.error('Error loading archive:', e);
             renderError();
         }
+    }
+
+    function attachArchiveListeners() {
+        document.querySelectorAll('.archive-item').forEach(item => {
+            item.addEventListener('click', async () => {
+                const date = item.dataset.date;
+                // Here we fetch the single story again. 
+                // Since individual JSON are small and likely browser-cached, this is acceptable.
+                // Optimizing this further would require a data-cache object mapping date -> storyData.
+                try {
+                    const sRes = await fetch(`${STORIES_BASE_URL}${date}.json`);
+                    const story = await sRes.json();
+                    renderStory(story, true);
+                } catch (e) {
+                    console.error('Failed to load story', e);
+                }
+            });
+        });
     }
 
     function renderError() {
@@ -345,6 +370,23 @@
                 </div>
             `;
         }, 300);
+    }
+
+    function renderArchiveSkeleton() {
+        let skeletonHtml = `<div class="story-archive-list"><div class="archive-grid">`;
+        // Create 5 skeleton items
+        for (let i = 0; i < 5; i++) {
+            skeletonHtml += `
+                <div class="archive-skeleton-item">
+                    <div class="skeleton-date skeleton-shimmer"></div>
+                    <div class="skeleton-title skeleton-shimmer"></div>
+                    <div class="skeleton-desc skeleton-shimmer"></div>
+                    <div class="skeleton-desc short skeleton-shimmer"></div>
+                </div>
+            `;
+        }
+        skeletonHtml += `</div></div>`;
+        storyContentContainer.innerHTML = skeletonHtml;
     }
 
     function formatDate(dateString) {
