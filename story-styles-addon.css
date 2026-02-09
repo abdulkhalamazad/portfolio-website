@@ -1,0 +1,230 @@
+/* Story Feature Additional Styles */
+
+/* Force consistent card size */
+.story-modal {
+    height: 85vh !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sticky Header */
+.story-sticky-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    background: var(--card-bg);
+    z-index: 100;
+    border-radius: 24px 24px 0 0;
+    transition: box-shadow 0.3s ease;
+}
+
+.story-sticky-header.has-shadow {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sticky-date {
+    font-weight: 600;
+    color: var(--accent-color);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+/* Back button styling */
+.btn-back-archive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 20;
+    /* Position is handled by flex in header now */
+}
+
+.btn-back-archive:hover {
+    background: rgba(14, 165, 233, 0.1);
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+.btn-back-archive.hidden {
+    display: none !important;
+}
+
+.btn-back-archive i {
+    font-size: 1rem;
+}
+
+/* Story modal scrollbar styling */
+.story-content-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(14, 165, 233, 0.5) rgba(255, 255, 255, 0.05);
+    padding: 70px 2rem 2rem;
+    /* Top padding for sticky header */
+    /* Added bottom padding */
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.story-content-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.story-content-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    margin-top: 60px;
+    /* Push scrollbar below header */
+}
+
+.story-content-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(14, 165, 233, 0.5);
+    border-radius: 4px;
+    border: 2px solid rgba(0, 0, 0, 0);
+    /* Creates padding around thumb */
+    background-clip: padding-box;
+}
+
+.story-content-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(14, 165, 233, 0.8);
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+}
+
+/* Layout Refinements */
+.story-header {
+    padding-bottom: 1.5rem !important;
+    /* Ensure separation from content */
+    position: relative;
+    z-index: 2;
+}
+
+.story-title {
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.story-image-container {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.story-text {
+    padding: 0 5px;
+    /* Slight horizontal padding adjustment */
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    40% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+
+    60% {
+        transform: translateX(-50%) translateY(-3px);
+    }
+}
+
+/* Override Close Button for Sticky Header */
+.story-close-btn {
+    position: static !important;
+    /* Override absolute from style.css */
+    margin-left: auto;
+    /* Push to right if needed, though justify-between handles it */
+    background: transparent !important;
+    color: var(--text-secondary) !important;
+    display: flex;
+    /* Ensure it behaves as flex item */
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+}
+
+.story-close-btn:hover {
+    color: var(--accent-color) !important;
+    background: rgba(14, 165, 233, 0.1) !important;
+    transform: scale(1.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .story-content-wrapper {
+        padding: 50px 1.25rem 2rem;
+    }
+
+    .story-sticky-header {
+        height: 50px;
+    }
+
+    .story-title {
+        font-size: 1.5rem !important;
+    }
+
+    .story-desc {
+        font-size: 1rem !important;
+    }
+
+    .story-image-container {
+        height: 220px !important;
+        border-radius: 12px !important;
+        /* Slightly smaller radius on mobile */
+    }
+}
+
+/* Close button hover effects */
+.story-close-btn {
+    transition: all 0.3s ease;
+    font-size: 1.5rem;
+    background: transparent !important;
+    /* Override style.css */
+    color: var(--text-secondary) !important;
+    /* Override style.css */
+}
+
+.story-close-btn:hover {
+    color: #ef4444 !important;
+    transform: rotate(90deg);
+    background: rgba(239, 68, 68, 0.1) !important;
+    /* Red aura */
+}

@@ -1,0 +1,8 @@
+{
+    "id": "2026-02-07",
+    "date": "2026-02-07",
+    "title": "Refining Dark Mode",
+    "description": "Tweaked the color palette for better contrast in low-light environments.",
+    "image": "",
+    "content": "<p>Spent the day refining the dark mode colors. The contrast ratios were a bit off on mobile screens, so I adjusted the background gradients to be softer.</p>"
+}

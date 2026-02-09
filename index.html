@@ -8,7 +8,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=1.3">
+    <link rel="stylesheet" href="style.css?v=1.4">
+    <link rel="stylesheet" href="story-styles-addon.css?v=0.2">
 </head>
 
 <body>
@@ -52,7 +53,7 @@
 
     <nav class="navbar">
         <div class="brand-container">
-            <img src="assets/images/IMG_8558.jpeg" alt="Profile" class="nav-profile-img">
+            <img src="assets/images/IMG_8558.webp" alt="Profile" class="nav-profile-img">
             <div class="brand-info">
                 <div class="brand-name">ABDUL KHALAM AZAD</div>
                 <div class="brand-role">FIRMWARE ENGINEER</div>
@@ -92,18 +93,45 @@
             </div>
 
             <div class="hero-image-container">
-                <div class="image-frame">
-                    <img src="assets/images/IMG_8558.jpeg" alt="Abdul Khalam Azad" class="profile-img">
-                    <div class="badge-wrapper top-right">
-                        <div class="floating-badge delay-0">
-                            <i class="fas fa-microchip"></i>
-                            <span>Firmware Logic</span>
+                <div class="hero-flip-container">
+                    <div class="hero-flipper">
+                        <!-- Front Face: Profile Image -->
+                        <div class="hero-front">
+                            <div class="image-frame">
+                                <img src="assets/images/IMG_8558.webp" alt="Abdul Khalam Azad" class="profile-img">
+                                <div class="badge-wrapper top-right">
+                                    <div class="floating-badge delay-0">
+                                        <i class="fas fa-microchip"></i>
+                                        <span>Firmware Logic</span>
+                                    </div>
+                                </div>
+                                <div class="badge-wrapper bottom-left">
+                                    <div class="floating-badge delay-2">
+                                        <i class="fas fa-satellite-dish"></i>
+                                        <span>Signal Processing</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="badge-wrapper bottom-left">
-                        <div class="floating-badge delay-2">
-                            <i class="fas fa-satellite-dish"></i>
-                            <span>Signal Processing</span>
+
+                        <!-- Back Face: Story Preview -->
+                        <div class="hero-back">
+                            <div class="story-preview-card">
+                                <div class="story-preview-header">
+                                    <div class="preview-img-wrapper">
+                                        <img src="assets/images/IMG_8558.webp" alt="Story" class="preview-story-img">
+                                    </div>
+                                    <div class="preview-meta">
+                                        <span class="preview-date">Today's Story</span>
+                                        <h4 class="preview-title">Loading...</h4>
+                                    </div>
+                                </div>
+                                <p class="preview-desc">Checking for daily updates...</p>
+                                <div class="preview-actions">
+                                    <button class="btn-sm-primary" id="btn-flip-view">View Story</button>
+                                    <button class="btn-sm-text" id="btn-flip-archive">Recent Stories</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -363,7 +391,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-    <script src="script.js?v=1.3" defer></script>
+    <script src="script.js?v=1.4" defer></script>
+    <script src="stories.js?v=1.1" defer></script>
+
+    <!-- Daily Story Overlay (Injected by JS, but placeholder for structure reference) -->
+    <!-- <div id="story-overlay"></div> -->
 
     <script>
         // Inline Critical Skeleton Removal Logic

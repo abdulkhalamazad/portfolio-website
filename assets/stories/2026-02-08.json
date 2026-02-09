@@ -1,0 +1,8 @@
+{
+    "id": "2026-02-08",
+    "date": "2026-02-08",
+    "title": "Welcome to Version 2.0",
+    "description": "Just deployed the new portfolio design with advanced sticky animations! Check out the Education section.",
+    "image": "",
+    "content": "<p>Today marks a major milestone! I've completely revamped the Education section with a <strong>Sticky Glass Stack</strong> effect. The cards now feature:</p><ul><li>3D Tilt Interactions</li><li>Glassmorphism UI</li><li>Smooth GSAP Animations</li></ul><p>Explore the site and let me know what you think!</p>"
+}
