@@ -124,11 +124,73 @@
 .story-image-container {
     margin-bottom: 1.5rem;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    /* For overlaid buttons */
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+/* Image Navigation Buttons */
+.img-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    opacity: 0;
+    /* Hidden by default, shown on hover of container */
+}
+
+.story-image-container:hover .img-nav-btn {
+    opacity: 1;
+}
+
+.img-nav-btn:hover {
+    background: rgba(14, 165, 233, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.img-nav-prev {
+    left: 10px;
+}
+
+.img-nav-next {
+    right: 10px;
+}
+
+.img-nav-btn.hidden {
+    display: none !important;
 }
 
 .story-text {
     padding: 0 5px;
-    /* Slight horizontal padding adjustment */
+}
+
+.story-full-content ul,
+.story-full-content ol {
+    padding-left: 1.5rem;
+    /* Indent bullets slightly */
+    margin-bottom: 1rem;
+    list-style-position: outside;
+    /* Keep bullets outside text block */
+}
+
+.story-full-content li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    /* Space between bullet and text */
 }
 
 /* Scroll Indicator */
@@ -209,5 +271,76 @@
         height: 220px !important;
         border-radius: 12px !important;
         /* Slightly smaller radius on mobile */
+    }
+}
+
+/* Card Navigation Buttons */
+.story-preview-card {
+    position: relative;
+}
+
+.card-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s ease;
+}
+
+.card-nav-btn:hover {
+    color: var(--accent-color);
+    background: rgba(14, 165, 233, 0.1);
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.card-nav-btn.prev {
+    left: 5px;
+}
+
+.card-nav-btn.next {
+    right: 5px;
+}
+
+.card-nav-btn.hidden {
+    display: none !important;
+}
+
+/* Revert wrapper padding */
+.story-content-wrapper {
+    padding: 70px 2rem 2rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card-nav-btn {
+        width: 36px;
+        /* Larger touch target */
+        height: 36px;
+        font-size: 1.1rem;
+    }
+
+    .story-content-wrapper {
+        padding: 50px 1.25rem 2rem;
+    }
+
+    /* Ensure buttons don't overlap text too much on small screens */
+    .card-nav-btn.prev {
+        left: 0;
+    }
+
+    .card-nav-btn.next {
+        right: 0;
     }
 }

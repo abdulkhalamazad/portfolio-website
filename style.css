@@ -615,6 +615,9 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-sm-primary:hover {
