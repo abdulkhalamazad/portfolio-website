@@ -23,6 +23,7 @@
 /* Smooth scroll behavior */
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -1348,6 +1349,7 @@ h1 {
     flex: 1;
     height: 1px;
     background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    min-width: 0;
 }
 
 .divider-label {
@@ -1362,6 +1364,29 @@ h1 {
     text-transform: uppercase;
     white-space: nowrap;
     border: 1px solid;
+}
+
+@media (max-width: 600px) {
+    .project-section-divider {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .divider-line {
+        width: 100%;
+        flex: none;
+    }
+
+    .divider-label {
+        white-space: normal;
+        text-align: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 0.72rem;
+        letter-spacing: 0.8px;
+        padding: 10px 16px;
+    }
 }
 
 .divider-label.professional {
@@ -2662,6 +2687,8 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 20px;
     margin-top: 40px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .cert-card {
@@ -2755,6 +2782,8 @@ h1 {
     justify-content: center;
     gap: 14px;
     margin-top: 36px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-social-btn {
@@ -2800,24 +2829,8 @@ h1 {
 }
 
 /* ========================================
-   STATS BAR — 4-item responsive fix
+   CERT + CONTACT SOCIAL — MOBILE SAFE
    ======================================== */
-
-@media (max-width: 900px) {
-    .stats-glass-panel {
-        flex-wrap: wrap;
-        gap: 0;
-    }
-
-    .stat-separator {
-        display: none;
-    }
-
-    .stat-card {
-        flex: 1 1 40%;
-        min-width: 120px;
-    }
-}
 
 @media (max-width: 480px) {
     .cert-grid {
@@ -2826,13 +2839,13 @@ h1 {
 
     .contact-social-links {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
     }
 
     .contact-social-btn {
-        width: 100%;
-        max-width: 280px;
+        width: auto;
         justify-content: center;
+        box-sizing: border-box;
     }
 }
 
