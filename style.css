@@ -1263,15 +1263,15 @@ h1 {
     transition: opacity 0.5s;
 }
 
-/* Icon bounce animation */
+/* Icon hover animation */
 .project-visual i {
-    transition: transform 0.6s var(--ease-spring);
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    transition: transform 0.5s var(--ease-spring), filter 0.5s ease;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
 }
 
 .project-visual:hover {
-    transform: scale(1.03) translateY(-8px);
-    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 28px 56px -12px rgba(0, 0, 0, 0.28);
 }
 
 .project-visual:hover::before {
@@ -1279,19 +1279,16 @@ h1 {
 }
 
 .project-visual:hover i {
-    transform: scale(1.15) rotateY(15deg);
-    animation: bounce 0.6s var(--ease-spring);
+    transform: scale(1.18) translateY(-6px);
+    animation: icon-pulse 1.8s ease-in-out infinite;
 }
 
-@keyframes bounce {
-
-    0%,
-    100% {
-        transform: scale(1.15) translateY(0);
+@keyframes icon-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.45)) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.3));
     }
-
     50% {
-        transform: scale(1.15) translateY(-15px);
+        filter: drop-shadow(0 0 36px rgba(255, 255, 255, 0.75)) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.3));
     }
 }
 
@@ -1336,6 +1333,60 @@ h1 {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
 }
+
+/* ========================================
+   PROJECT SECTION DIVIDERS
+   ======================================== */
+.project-section-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 10px 0;
+}
+
+.divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+}
+
+.divider-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    border: 1px solid;
+}
+
+.divider-label.professional {
+    color: #0ea5e9;
+    background: rgba(14, 165, 233, 0.08);
+    border-color: rgba(14, 165, 233, 0.25);
+}
+
+.divider-label.professional i { color: #0ea5e9; }
+
+.divider-label.academic {
+    color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.25);
+}
+
+.divider-label.academic i { color: #8b5cf6; }
+
+.divider-label.hobby {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.25);
+}
+
+.divider-label.hobby i { color: #10b981; }
 
 /* ========================================
    CONTACT / CTA
@@ -2601,4 +2652,221 @@ h1 {
     cursor: pointer;
     font-weight: 600;
     margin-top: 10px;
+}
+/* ========================================
+   CERTIFICATIONS / WORKSHOPS SECTION
+   ======================================== */
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.cert-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    background: var(--card-bg);
+    border: 1px solid rgba(14, 165, 233, 0.1);
+    border-radius: 12px;
+    padding: 24px 22px;
+    transition: all 0.3s var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-dark));
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-smooth);
+}
+
+.cert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: rgba(14, 165, 233, 0.25);
+}
+
+.cert-card:hover::before {
+    opacity: 1;
+}
+
+.cert-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: var(--accent-light);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    transition: all 0.3s var(--ease-smooth);
+}
+
+.cert-card:hover .cert-icon {
+    background: var(--accent-color);
+    color: white;
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.cert-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cert-body h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.cert-org {
+    font-size: 0.82rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin: 0;
+}
+
+.cert-date {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ========================================
+   CONTACT SOCIAL LINKS
+   ======================================== */
+
+.contact-social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 36px;
+}
+
+.contact-social-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border: 1.5px solid rgba(14, 165, 233, 0.3);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s var(--ease-smooth);
+    background: transparent;
+}
+
+.contact-social-btn i {
+    font-size: 1rem;
+    color: var(--accent-color);
+    transition: transform 0.3s var(--ease-spring);
+}
+
+.contact-social-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.15);
+}
+
+.contact-social-btn:hover i {
+    transform: scale(1.2) rotate(-5deg);
+}
+
+/* ========================================
+   DOWNLOAD BUTTON IN NAV (icon spacing)
+   ======================================== */
+
+.btn-nav i {
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+
+/* ========================================
+   STATS BAR — 4-item responsive fix
+   ======================================== */
+
+@media (max-width: 900px) {
+    .stats-glass-panel {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    .stat-separator {
+        display: none;
+    }
+
+    .stat-card {
+        flex: 1 1 40%;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cert-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-social-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-social-btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+}
+
+/* ========================================
+   DOWNLOAD CV — OUTLINED BUTTON (HERO)
+   ======================================== */
+
+.btn-outline-cv {
+    padding: 12px 26px;
+    border: 2px solid var(--accent-color);
+    border-radius: 6px;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s var(--ease-smooth);
+    background: transparent;
+}
+
+.btn-outline-cv i {
+    font-size: 0.9em;
+    transition: transform 0.3s var(--ease-spring);
+}
+
+.btn-outline-cv:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+}
+
+.btn-outline-cv:hover i {
+    transform: translateY(2px);
 }
