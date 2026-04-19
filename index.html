@@ -83,13 +83,14 @@
             </div>
         </div>
 
-        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
         <div class="nav-links">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="toggle-track">
+                    <span class="toggle-knob">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                    </span>
+                </span>
+            </button>
             <a href="#about">Profile</a>
             <a href="#expertise">Expertise</a>
             <a href="#education">Education</a>
@@ -100,6 +101,21 @@
                 <i class="fas fa-download"></i> Resume
             </a>
         </div>
+
+        <div class="navbar-controls">
+            <button class="theme-toggle theme-toggle-mobile" id="theme-toggle-mobile" aria-label="Toggle dark mode">
+                <span class="toggle-track">
+                    <span class="toggle-knob">
+                        <i class="fas fa-moon" id="theme-icon-mobile"></i>
+                    </span>
+                </span>
+            </button>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
     </nav>
 
     <main>
@@ -108,7 +124,7 @@
                 <span class="eyebrow">Embedded Systems &amp; Autonomous Systems Engineer</span>
                 <h1>Engineering Intelligent <br>Machines</h1>
                 <p class="lead">
-                    Systems engineer with 1.5 years of hands-on experience architecting embedded and autonomous
+                    Systems engineer with <span id="exp-lead">1.5 years</span> of hands-on experience architecting embedded and autonomous
                     systems from first principles. Specializing in <strong>Autonomous Vessel Control</strong>,
                     <strong>Quaternion-Based Sensor Fusion</strong>, and <strong>Safety-Critical Software Design</strong>
                     to DO-178C and MISRA C++ 2023 standards.
@@ -184,7 +200,7 @@
                             <i class="fas fa-flask"></i>
                         </div>
                         <div class="stat-content">
-                            <h3>1.5 Years</h3>
+                            <h3 id="exp-stat">1.5 Years</h3>
                             <p>R&amp;D Experience</p>
                         </div>
                     </div>

@@ -230,22 +230,24 @@
 /* Override Close Button for Sticky Header */
 .story-close-btn {
     position: static !important;
-    /* Override absolute from style.css */
     margin-left: auto;
-    /* Push to right if needed, though justify-between handles it */
     background: transparent !important;
     color: var(--text-secondary) !important;
     display: flex;
-    /* Ensure it behaves as flex item */
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    font-size: 1.35rem;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, transform 0.3s;
 }
 
 .story-close-btn:hover {
     color: #ef4444 !important;
-    background: rgba(239, 68, 68, 0.1) !important;
+    background: rgba(239, 68, 68, 0.12) !important;
     transform: rotate(90deg);
 }
 

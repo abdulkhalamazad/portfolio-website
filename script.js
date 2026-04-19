@@ -1,3 +1,80 @@
+// --- THEME TOGGLE (Dark / Light Mode) ---
+(function () {
+    const root = document.documentElement;
+    const STORAGE_KEY = 'aka-theme';
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === 'dark') root.setAttribute('data-theme', 'dark');
+
+    function updateIcons(isDark) {
+        ['theme-icon', 'theme-icon-mobile'].forEach(function(id) {
+            const el = document.getElementById(id);
+            if (el) el.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        });
+    }
+
+    function updateCanvasColor(isDark) {
+        if (window.__threeWireMaterial) {
+            window.__threeWireMaterial.color.set(isDark ? 0xf59e0b : 0x0ea5e9);
+        }
+    }
+
+    function applyTheme(dark) {
+        if (dark) {
+            root.setAttribute('data-theme', 'dark');
+            localStorage.setItem(STORAGE_KEY, 'dark');
+        } else {
+            root.removeAttribute('data-theme');
+            localStorage.setItem(STORAGE_KEY, 'light');
+        }
+        updateIcons(dark);
+        updateCanvasColor(dark);
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        updateIcons(isDark);
+
+        ['theme-toggle', 'theme-toggle-mobile'].forEach(function(id) {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            btn.addEventListener('click', function () {
+                const nowDark = root.getAttribute('data-theme') === 'dark';
+                applyTheme(!nowDark);
+            });
+        });
+    });
+})();
+
+// --- DYNAMIC EXPERIENCE CALCULATOR ---
+(function () {
+    const START_DATE = new Date('2024-10-28');
+
+    function getExperienceLabel(startDate) {
+        const now = new Date();
+        const totalMonths =
+            (now.getFullYear() - startDate.getFullYear()) * 12 +
+            (now.getMonth() - startDate.getMonth());
+
+        const decimal = totalMonths / 12;
+
+        // Round to nearest 0.5
+        const rounded = Math.round(decimal * 2) / 2;
+
+        return rounded % 1 === 0
+            ? rounded + ' Years'
+            : rounded.toFixed(1) + ' Years';
+    }
+
+    const label = getExperienceLabel(START_DATE);
+
+    const statEl = document.getElementById('exp-stat');
+    const leadEl = document.getElementById('exp-lead');
+
+    if (statEl) statEl.textContent = label;
+    if (leadEl) leadEl.textContent = label.toLowerCase();
+})();
+
 // --- SKELETON LOADER LOGIC (Critical Priority) ---
 (function () {
     const cleanupSkeleton = () => {
@@ -82,6 +159,12 @@ try {
                 transparent: true,
                 opacity: 0.1
             });
+            // Expose so theme toggle can swap colour live
+            window.__threeWireMaterial = material;
+            // Apply saved theme color immediately
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                material.color.set(0xf59e0b);
+            }
 
             const plane = new THREE.Mesh(geometry, material);
             scene.add(plane);
